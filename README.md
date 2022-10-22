@@ -1,5 +1,7 @@
 ## JSON string Converter.
 
+![Usage](usage.gif)
+
 ### To build:
 Clone the project if you haven't done so:
 ```shell
@@ -15,21 +17,21 @@ mvn clean install
 Convert a bigger json string into a smaller json string. The smaller json will contain the keys passed in the function argument. 
 PS: Any key argument passed that doesn't exist in the json string will make the function return an empty json string ("{}"). 
 ```java
-import org.marcelus.json.string.utils.filters;
+package com.mycompany.app;
 
-public class Main{
-    public static void main(String... args){
-        
-        String bigJsonString = "{\"foo\":\"bar\",\"fizz\":\"buzz\":\"fazz\",\"bazz\":\"far\",\"bizz\":\"fuzz\"}";
-        
-        // generate a new json string containing only the foo and the fizz keys:
-        String smallerJsonString = JsonFilterer.filter(bigJsonString, "foo", "fizz");
-        
-        // smallerJsonString will be {"foo":"bar","fizz":"buzz"}
+import org.marcelus.json.string.utils.filters.JsonFilterer;
+
+public class App {
+    public static void main( String[] args ) {
+
+        String bigJsonString = "{\"foo\":\"bar\",\"fizz\":\"buzz\",\"fazz\":\"bazz\",\"bizz\":\"fuzz\"}";
+
+        String filteredJson = JsonFilterer.filter(bigJsonString, "foo", "bizz");
+
+        // filteredJson will be {"foo":"bar","bizz":"fuzz"}
+
     }
 }
-    
-
 ```
 
 ---
@@ -40,29 +42,35 @@ In this use case, the filter method will keep the json keys that have the same n
 
 PS: The class field names **must** be identical to the json keys. It is case sensitive! 
 ```java
-import org.marcelus.json.string.utils.filters;
+package com.mycompany.app;
 
-public class Main{
-    
-    public class FooFizz{
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.marcelus.json.string.utils.filters.JsonFilterer;
+
+
+public class App {
+
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class FooFizz{
         private String foo;
-        private String fizz;
-        
-        //.. Getters and setters
+        private String bizz;
+
     }
-    
-    public static void main(String... args){
-        
-        String bigJsonString = "{\"foo\":\"bar\",\"fizz\":\"buzz\":\"fazz\",\"bazz\":\"far\",\"bizz\":\"fuzz\"}";
-        
-        // Generating a new JSON following the FooFizz class schema: 
-        String smallerJsonString = JsonFilterer.filter(bigJsonString, FooFizz.class);
-        
-        // smallerJsonString will be "{\"foo\":\"bar\",\"fizz\":\"buzz\"}"
+    public static void main( String[] args ) {
+
+        String bigJsonString = "{\"foo\":\"bar\",\"fizz\":\"buzz\",\"fazz\":\"bazz\",\"bizz\":\"fuzz\"}";
+
+        String filteredJson = JsonFilterer.filter(bigJsonString, App.FooFizz.class);
+
+        // filteredJson will be {"foo":"bar","bizz":"fuzz"}
+
     }
 }
-    
-
 ```
 
 ## Contributing
