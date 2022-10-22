@@ -1,7 +1,5 @@
 ## JSON string Converter.
 
-![Usage](usage.gif)
-
 ### To build:
 Clone the project if you haven't done so:
 ```shell
